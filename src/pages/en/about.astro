@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const lang = 'en';
+---
+
+<BaseLayout title="About - Pharus Lee" lang={lang}>
+  <article class="mx-auto px-6 py-16" style={`max-width: var(--prose-width)`}>
+    <h1 class="text-4xl font-semibold mb-8" style={`font-family: var(--font-serif)`}>
+      About
+    </h1>
+
+    <div class="prose">
+      <p>
+        Pharus Lee writes at the intersection of consciousness, spirituality, and technology.
+      </p>
+      <p>
+        <em>Pharus</em> means lighthouse in Latin.
+        To illuminate the path without dictating which way to go &mdash;
+        that is what a lighthouse does, and what I aspire to do through writing.
+      </p>
+      <p>
+        Through the book <a href="/en/book">"A Soul's Guidebook for the Coming Cosmic Awakening"</a>,
+        I explore the nature of consciousness, the evolutionary journey of the soul,
+        and the new possibilities that AI and technology are opening up.
+      </p>
+      <p>
+        I am also the creator of <a href="https://lilamysoulmate.com">LILA My Soulmate</a> &mdash;
+        an AI soul companion service that bridges ancient wisdom traditions with modern technology.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        For thoughts on the writing or collaboration inquiries,
+        please reach out at <a href="mailto:contact@pharus.global">contact@pharus.global</a>.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

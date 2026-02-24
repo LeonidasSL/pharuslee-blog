@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = 'ko';
+const t = useTranslations(lang);
+
+const posts = (await getCollection('blog', ({ data }) => data.lang === 'ko' && !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Pharus Lee" lang={lang}>
+  <!-- Hero -->
+  <section class="mx-auto px-6 pt-24 pb-20 text-center" style={`max-width: var(--prose-width)`}>
+    <h1 class="text-5xl md:text-6xl font-semibold mb-6" style={`font-family: var(--font-serif); line-height: 1.15`}>
+      Pharus Lee
+    </h1>
+    <p class="text-lg" style={`color: var(--color-ink-muted); line-height: 1.7`}>
+      {t('home.hero.tagline')}
+    </p>
+    <div class="mt-8 mx-auto" style={`width: 60px; height: 2px; background: var(--color-turquoise)`}></div>
+  </section>
+
+  <!-- Book Teaser -->
+  <section class="mx-auto px-6 pb-16" style={`max-width: var(--page-max)`}>
+    <a
+      href="/ko/book"
+      class="block rounded-2xl p-8 md:p-12 transition-shadow hover:shadow-lg"
+      style={`background: var(--color-surface); border: 1px solid var(--color-border-light)`}
+    >
+      <p class="text-xs font-medium uppercase tracking-widest mb-3" style={`color: var(--color-sea-green)`}>
+        New Book
+      </p>
+      <h2 class="text-2xl md:text-3xl font-semibold mb-3" style={`font-family: var(--font-serif)`}>
+        {t('book.title')}
+      </h2>
+      <p style={`color: var(--color-ink-muted)`}>
+        우리가 알던 현실을 넘어, 의식의 더 깊은 층위로 안내하는 여정.
+      </p>
+      <span class="inline-block mt-4 text-sm" style={`color: var(--color-sea-green)`}>
+        {t('book.learnMore')} &rarr;
+      </span>
+    </a>
+  </section>
+
+  <!-- Latest Posts -->
+  {posts.length > 0 && (
+    <section class="mx-auto px-6 pb-20" style={`max-width: var(--page-max)`}>
+      <h2 class="text-2xl font-semibold mb-8" style={`font-family: var(--font-serif)`}>
+        {t('blog.latestPosts')}
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            slug={post.data.urlSlug}
+            date={post.data.date}
+            excerpt={post.data.excerpt}
+            tags={post.data.tags}
+            lang={lang}
+          />
+        ))}
+      </div>
+      <div class="mt-10 text-center">
+        <a
+          href="/ko/blog/"
+          class="text-sm"
+          style={`color: var(--color-sea-green)`}
+        >
+          {t('blog.allPosts')} &rarr;
+        </a>
+      </div>
+    </section>
+  )}
+</BaseLayout>

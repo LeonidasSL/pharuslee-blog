@@ -1,0 +1,39 @@
+---
+import { useTranslations } from '../../i18n/ui';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="mt-20 py-12 px-6"
+  style={`border-top: 1px solid var(--color-border-light)`}
+>
+  <div class="mx-auto flex flex-col md:flex-row items-center justify-between gap-4" style={`max-width: var(--page-max)`}>
+    <p class="text-sm" style={`color: var(--color-ink-faint)`}>
+      &copy; {year} {t('footer.copyright')}
+    </p>
+    <div class="flex items-center gap-6">
+      <a
+        href={`/${lang}/blog/`}
+        class="text-sm"
+        style={`color: var(--color-ink-faint)`}
+      >
+        {t('nav.blog')}
+      </a>
+      <a
+        href={`/${lang}/about`}
+        class="text-sm"
+        style={`color: var(--color-ink-faint)`}
+      >
+        {t('nav.about')}
+      </a>
+    </div>
+  </div>
+</footer>

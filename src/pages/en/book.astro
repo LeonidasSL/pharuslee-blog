@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const lang = 'en';
+---
+
+<BaseLayout title="The Book - Pharus Lee" lang={lang}>
+  <article class="mx-auto px-6 py-16" style={`max-width: var(--page-max)`}>
+    <div class="mx-auto" style={`max-width: var(--prose-width)`}>
+      <p class="text-xs font-medium uppercase tracking-widest mb-4" style={`color: var(--color-sea-green)`}>
+        Book
+      </p>
+      <h1 class="text-4xl md:text-5xl font-semibold mb-6" style={`font-family: var(--font-serif); line-height: 1.2`}>
+        A Soul's Guidebook for the<br />Coming Cosmic Awakening
+      </h1>
+
+      <div class="my-12 p-8 rounded-xl" style={`background: var(--color-surface); border: 1px solid var(--color-border-light)`}>
+        <blockquote class="text-lg italic" style={`color: var(--color-ink-muted); font-family: var(--font-serif); line-height: 1.8`}>
+          "What we call reality is a stage that consciousness created to experience itself.
+          And you are not the audience &mdash; you are the actor, the director, and the theater itself."
+        </blockquote>
+      </div>
+
+      <div class="prose">
+        <h2>Overview</h2>
+        <p>
+          This book begins with the nature of consciousness and unfolds across ten chapters:
+          the evolutionary journey of the soul, the interface between DNA and consciousness,
+          the sacred dance of polarity beyond dualistic illusion, multidimensional experiences of memory and dreams,
+          and the new chapter of consciousness evolution that technology and AI are opening.
+        </p>
+
+        <h2>Chapters</h2>
+        <ol>
+          <li>The Nature of Consciousness and Reality</li>
+          <li>The Evolutionary Journey of the Soul</li>
+          <li>Soul and DNA &mdash; The Interface of Consciousness and Biology</li>
+          <li>The Sacred Dance of Polarity &mdash; Beyond Dualistic Illusion</li>
+          <li>Memory, Dreams, and Multidimensional Experience</li>
+          <li>The Source of Imagination &mdash; Fantasy as Inter-dimensional Memory</li>
+          <li>Prophets, Angels, and Demons</li>
+          <li>Technology, AI, and the Evolution of Consciousness</li>
+          <li>Interspecies Consciousness and the Cosmic Community</li>
+          <li>The Cosmic Role-Play &mdash; Understanding Lila</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

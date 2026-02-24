@@ -1,0 +1,47 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { getAlternateLang } from '../../i18n/ui';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang: Lang;
+  translationSlug?: string;
+  ogImage?: string;
+}
+
+const { title, description, lang, translationSlug, ogImage } = Astro.props;
+const altLang = getAlternateLang(lang);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const altPath = translationSlug
+  ? `/${altLang}/blog/${translationSlug}`
+  : Astro.url.pathname.replace(`/${lang}/`, `/${altLang}/`);
+const altURL = new URL(altPath, Astro.site);
+
+const desc = description || (lang === 'ko'
+  ? '의식, 영성, 그리고 기술의 교차점에서 글을 쓰는 작가 Pharus Lee의 블로그'
+  : "Pharus Lee's blog exploring consciousness, spirituality, and technology");
+---
+
+<title>{title}</title>
+<meta name="description" content={desc} />
+<link rel="canonical" href={canonicalURL.href} />
+
+<!-- Hreflang -->
+<link rel="alternate" hreflang={lang === 'ko' ? 'ko-KR' : 'en-US'} href={canonicalURL.href} />
+<link rel="alternate" hreflang={altLang === 'ko' ? 'ko-KR' : 'en-US'} href={altURL.href} />
+<link rel="alternate" hreflang="x-default" href={new URL('/ko/', Astro.site).href} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={desc} />
+<meta property="og:url" content={canonicalURL.href} />
+<meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={desc} />

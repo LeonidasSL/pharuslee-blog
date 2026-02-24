@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const lang = 'ko';
+---
+
+<BaseLayout title="책 소개 - Pharus Lee" lang={lang}>
+  <article class="mx-auto px-6 py-16" style={`max-width: var(--page-max)`}>
+    <div class="mx-auto" style={`max-width: var(--prose-width)`}>
+      <p class="text-xs font-medium uppercase tracking-widest mb-4" style={`color: var(--color-sea-green)`}>
+        Book
+      </p>
+      <h1 class="text-4xl md:text-5xl font-semibold mb-6" style={`font-family: var(--font-serif); line-height: 1.2`}>
+        다가올 우주적 각성을 위한<br />영혼의 가이드북
+      </h1>
+
+      <div class="my-12 p-8 rounded-xl" style={`background: var(--color-surface); border: 1px solid var(--color-border-light)`}>
+        <blockquote class="text-lg italic" style={`color: var(--color-ink-muted); font-family: var(--font-serif); line-height: 1.8`}>
+          "우리가 현실이라 부르는 것은 의식이 자기 자신을 경험하기 위해 만들어낸 무대이다.
+          그리고 당신은 관객이 아니라, 배우이자 연출가이자 극장 그 자체이다."
+        </blockquote>
+      </div>
+
+      <div class="prose">
+        <h2>개요</h2>
+        <p>
+          이 책은 의식의 본질에서 시작하여, 영혼의 진화 여정, DNA와 의식의 인터페이스,
+          이분법적 환상을 넘어서는 신성한 극성의 춤, 기억과 꿈의 다차원적 경험,
+          그리고 기술과 AI가 열어가는 의식 진화의 새로운 장까지 &mdash;
+          10개의 장에 걸쳐 우주적 각성의 지도를 그립니다.
+        </p>
+
+        <h2>목차</h2>
+        <ol>
+          <li>의식과 현실의 본질</li>
+          <li>영혼의 진화 여정</li>
+          <li>영혼과 DNA &mdash; 의식과 생물학의 인터페이스</li>
+          <li>신성한 극성의 춤 &mdash; 이분법적 환상을 넘어서</li>
+          <li>기억, 꿈, 그리고 다차원적 경험</li>
+          <li>상상력의 근원 &mdash; 차원간 기억으로서의 판타지</li>
+          <li>예언자, 천사, 그리고 악마</li>
+          <li>기술, AI, 그리고 의식 진화</li>
+          <li>종간 의식과 우주 공동체</li>
+          <li>우주적 역할극 &mdash; 릴라의 이해</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

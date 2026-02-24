@@ -1,0 +1,55 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  title: string;
+  slug: string;
+  date: Date;
+  excerpt: string;
+  tags: string[];
+  lang: Lang;
+}
+
+const { title, slug, date, excerpt, tags, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const formattedDate = date.toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="group">
+  <a href={`/${lang}/blog/${slug}`} class="block">
+    <time
+      datetime={date.toISOString()}
+      class="text-sm"
+      style={`color: var(--color-ink-faint)`}
+    >
+      {formattedDate}
+    </time>
+    <h3
+      class="mt-2 text-xl font-semibold group-hover:underline"
+      style={`font-family: var(--font-serif); color: var(--color-ink); text-underline-offset: 4px; text-decoration-color: var(--color-turquoise)`}
+    >
+      {title}
+    </h3>
+    <p class="mt-2 leading-relaxed" style={`color: var(--color-ink-muted); font-size: 0.9375rem`}>
+      {excerpt}
+    </p>
+  </a>
+  {tags.length > 0 && (
+    <div class="flex gap-2 mt-3 flex-wrap">
+      {tags.map((tag) => (
+        <span
+          class="px-2.5 py-0.5 rounded-full text-xs"
+          style={`background: var(--color-pale-blue-light); color: var(--color-ink-muted)`}
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+  )}
+</article>

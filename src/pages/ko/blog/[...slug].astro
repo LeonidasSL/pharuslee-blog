@@ -1,0 +1,30 @@
+---
+import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.lang === 'ko' && !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.data.urlSlug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Find English translation slug if it exists
+const allPosts = await getCollection('blog', ({ data }) => data.lang === 'en');
+const translation = allPosts.find((p) => p.data.translationKey === post.data.translationKey);
+---
+
+<BlogPostLayout
+  title={post.data.title}
+  date={post.data.date}
+  excerpt={post.data.excerpt}
+  tags={post.data.tags}
+  lang="ko"
+  translationSlug={translation?.data.urlSlug}
+>
+  <Content />
+</BlogPostLayout>

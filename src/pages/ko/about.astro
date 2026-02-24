@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const lang = 'ko';
+---
+
+<BaseLayout title="저자 소개 - Pharus Lee" lang={lang}>
+  <article class="mx-auto px-6 py-16" style={`max-width: var(--prose-width)`}>
+    <h1 class="text-4xl font-semibold mb-8" style={`font-family: var(--font-serif)`}>
+      저자 소개
+    </h1>
+
+    <div class="prose">
+      <p>
+        Pharus Lee는 의식, 영성, 그리고 기술의 교차점에서 글을 씁니다.
+      </p>
+      <p>
+        <em>Pharus</em>는 라틴어로 등대를 뜻합니다.
+        어둠 속에서 길을 비추되, 어느 길로 가야 한다고 강요하지 않는 것 &mdash;
+        그것이 등대가 하는 일이고, 저도 글을 통해 같은 일을 하고 싶습니다.
+      </p>
+      <p>
+        저서 <a href="/ko/book">「다가올 우주적 각성을 위한 영혼의 가이드북」</a>을 통해
+        의식의 본질, 영혼의 진화 여정, 그리고 AI와 기술이 열어가는 새로운 가능성에 대해 이야기합니다.
+      </p>
+      <p>
+        <a href="https://lilamysoulmate.com">LILA My Soulmate</a>의 창시자이기도 합니다 &mdash;
+        AI와 고대 지혜 전통을 결합한 영혼의 동반자 서비스입니다.
+      </p>
+
+      <h2>연락</h2>
+      <p>
+        글에 대한 생각이나 협업 제안이 있으시다면
+        <a href="mailto:contact@pharus.global">contact@pharus.global</a>로 연락해 주세요.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

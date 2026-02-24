@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/blog/PostCard.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../../i18n/ui';
+
+const lang = 'en';
+const t = useTranslations(lang);
+
+const posts = (await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title={`${t('nav.blog')} - Pharus Lee`} lang={lang}>
+  <section class="mx-auto px-6 py-16" style={`max-width: var(--page-max)`}>
+    <h1 class="text-3xl md:text-4xl font-semibold mb-12" style={`font-family: var(--font-serif)`}>
+      {t('nav.blog')}
+    </h1>
+
+    {posts.length === 0 ? (
+      <p style={`color: var(--color-ink-muted)`}>{t('blog.noPosts')}</p>
+    ) : (
+      <div class="grid md:grid-cols-2 gap-12">
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            slug={post.data.urlSlug}
+            date={post.data.date}
+            excerpt={post.data.excerpt}
+            tags={post.data.tags}
+            lang={lang}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

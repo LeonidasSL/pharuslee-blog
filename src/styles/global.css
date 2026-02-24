@@ -1,0 +1,137 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ============================================================
+   Design Tokens - pharuslee.com
+   ============================================================ */
+@theme {
+  /* Brand Colors */
+  --color-sea-green: #21888F;
+  --color-sea-green-light: #2BA0A8;
+  --color-turquoise: #A0CDC3;
+  --color-turquoise-light: #C2E0D9;
+  --color-pink-linen: #F4CFDF;
+  --color-pink-linen-light: #F9E4EE;
+  --color-pale-blue: #B8D8F2;
+  --color-pale-blue-light: #D4E8F8;
+  --color-pastel-yellow: #F7F6CF;
+  --color-lavender: #DDD8EF;
+
+  /* Surface */
+  --color-warm-sand: #F9F5F0;
+  --color-surface: #FFFFFF;
+  --color-surface-warm: #FDF8F3;
+  --color-border: #E8E0D8;
+  --color-border-light: #F0EBE5;
+
+  /* Text */
+  --color-ink: #1C1A18;
+  --color-ink-muted: #5A554E;
+  --color-ink-faint: #9B958D;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', 'Noto Serif KR', Georgia, serif;
+  --font-sans: 'Inter', 'Noto Sans KR', system-ui, sans-serif;
+  --font-body-ko: 'Noto Sans KR', system-ui, sans-serif;
+
+  /* Reading */
+  --prose-width: 68ch;
+  --page-max: 1160px;
+}
+
+/* ============================================================
+   Base Styles
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-warm-sand);
+  color: var(--color-ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  color: var(--color-ink);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   Prose (blog post content)
+   ============================================================ */
+.prose {
+  max-width: var(--prose-width);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  color: var(--color-ink);
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+  color: var(--color-ink);
+}
+
+.prose h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.prose p {
+  margin-bottom: 1.75em;
+}
+
+.prose a {
+  color: var(--color-sea-green);
+  text-decoration-color: var(--color-turquoise);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-sea-green);
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-pink-linen);
+  padding-left: 1.5rem;
+  font-style: italic;
+  color: var(--color-ink-muted);
+}
+
+.prose img {
+  border-radius: 0.5rem;
+}
+
+.prose hr {
+  border-color: var(--color-border-light);
+  margin: 3rem 0;
+}
+
+/* ============================================================
+   Selection
+   ============================================================ */
+::selection {
+  background-color: var(--color-turquoise-light);
+  color: var(--color-ink);
+}
+
+/* ============================================================
+   Transitions
+   ============================================================ */
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}

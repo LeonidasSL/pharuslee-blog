@@ -1,0 +1,62 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  date: Date;
+  excerpt: string;
+  tags: string[];
+  lang: Lang;
+  translationSlug?: string;
+}
+
+const { title, date, excerpt, tags, lang, translationSlug } = Astro.props;
+const t = useTranslations(lang);
+
+const formattedDate = date.toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Estimate reading time from slot content
+const content = await Astro.slots.render('default');
+const wordCount = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+const koreanChars = (content.replace(/<[^>]*>/g, '').match(/[\uAC00-\uD7AF]/g) || []).length;
+const readingTime = Math.max(1, Math.ceil((wordCount + koreanChars) / 250));
+---
+
+<BaseLayout title={`${title} - Pharus Lee`} description={excerpt} lang={lang} translationSlug={translationSlug}>
+  <article class="mx-auto px-6 py-16" style={`max-width: var(--page-max)`}>
+    <header class="mb-12 text-center" style={`max-width: var(--prose-width); margin: 0 auto`}>
+      <div class="flex items-center justify-center gap-3 mb-6" style={`color: var(--color-ink-faint); font-size: 0.875rem`}>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+        <span>·</span>
+        <span>{t('blog.readingTime').replace('{n}', String(readingTime))}</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-semibold mb-6" style={`font-family: var(--font-serif); line-height: 1.2`}>
+        {title}
+      </h1>
+      {tags.length > 0 && (
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+          {tags.map((tag) => (
+            <span
+              class="px-3 py-1 rounded-full text-xs"
+              style={`background: var(--color-pale-blue-light); color: var(--color-ink-muted)`}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="mx-auto" style={`border-top: 1px solid var(--color-border-light); padding-top: 3rem; max-width: var(--prose-width)`}>
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

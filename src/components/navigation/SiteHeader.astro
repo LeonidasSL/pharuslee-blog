@@ -1,0 +1,77 @@
+---
+import { useTranslations, getAlternateLang } from '../../i18n/ui';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  translationSlug?: string;
+}
+
+const { lang, translationSlug } = Astro.props;
+const t = useTranslations(lang);
+const altLang = getAlternateLang(lang);
+
+const navItems = [
+  { href: `/${lang}/`, label: t('nav.home') },
+  { href: `/${lang}/blog/`, label: t('nav.blog') },
+  { href: `/${lang}/book`, label: t('nav.book') },
+  { href: `/${lang}/about`, label: t('nav.about') },
+];
+
+const altHref = translationSlug
+  ? `/${altLang}/blog/${translationSlug}`
+  : `/${altLang}/`;
+---
+
+<header
+  class="sticky top-0 z-50 backdrop-blur-sm"
+  style={`background: rgba(249, 245, 240, 0.9); border-bottom: 1px solid var(--color-border-light)`}
+>
+  <nav class="mx-auto flex items-center justify-between px-6 py-4" style={`max-width: var(--page-max)`}>
+    <a
+      href={`/${lang}/`}
+      class="text-xl font-semibold tracking-tight"
+      style={`font-family: var(--font-serif); color: var(--color-ink)`}
+    >
+      Pharus Lee
+    </a>
+
+    <div class="flex items-center gap-8">
+      <ul class="hidden md:flex items-center gap-6">
+        {navItems.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class="text-sm transition-colors"
+              style={`color: var(--color-ink-muted)`}
+              data-active={Astro.url.pathname === href || Astro.url.pathname.startsWith(href + '/') ? 'true' : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={altHref}
+        class="text-xs px-3 py-1.5 rounded-full border transition-colors"
+        style={`color: var(--color-sea-green); border-color: var(--color-turquoise)`}
+      >
+        {t('lang.switch')}
+      </a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  [data-active="true"] {
+    color: var(--color-sea-green) !important;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--color-turquoise);
+  }
+
+  nav a:hover {
+    color: var(--color-sea-green) !important;
+  }
+</style>
