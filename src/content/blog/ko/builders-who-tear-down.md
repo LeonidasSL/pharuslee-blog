@@ -3,7 +3,7 @@ title: "성을 허무는 건설자들"
 urlSlug: "builders-who-tear-down"
 translationKey: "builders-who-tear-down"
 lang: ko
-date: 2026-03-01
+date: 2026-03-01T18:00:00
 excerpt: "기존 시스템을 박살내는 주체가 바로 그 시스템을 구축한 자들이라는 사실이, AI 전쟁과 중동 전쟁에서 동시에 드러나고 있습니다."
 tags: [AI, 지정학, 의식, 시스템]
 featured: true

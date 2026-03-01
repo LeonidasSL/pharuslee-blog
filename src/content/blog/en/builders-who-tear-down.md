@@ -3,7 +3,7 @@ title: "The Builders Who Tear Down the Castle"
 urlSlug: "builders-who-tear-down"
 translationKey: "builders-who-tear-down"
 lang: en
-date: 2026-03-01
+date: 2026-03-01T18:00:00
 excerpt: "The ones dismantling the existing world order are the very ones who built it — and this pattern is playing out simultaneously in the AI war and the Middle East war."
 tags: [AI, geopolitics, consciousness, systems]
 featured: true
