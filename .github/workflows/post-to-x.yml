@@ -101,12 +101,14 @@ jobs:
               lang = meta.get("lang", "")
               slug = meta.get("urlSlug", "")
               title = meta.get("title", "")
+              excerpt = meta.get("excerpt", "")
 
               if not slug or not title:
                   continue
 
               url = f"{site}/{lang}/blog/{slug}/"
-              tweet = f"{title}\n\n{url}"
+              # Use excerpt as intro, link card shows the title
+              tweet = f"{excerpt}\n\n{url}" if excerpt else f"{title}\n\n{url}"
 
               print(f"Posting: {tweet[:80]}...")
               if post_with_retry(tweet):
