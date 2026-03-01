@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       slug:
-        description: 'Blog post slug to tweet (e.g. boromir-syndrome)'
+        description: 'Comma-separated slugs or "all" (e.g. boromir-syndrome,consciousness-and-ai)'
         required: true
 
 jobs:
@@ -23,10 +23,17 @@ jobs:
         id: find-posts
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            # Manual trigger — find posts by slug
-            SLUG="${{ github.event.inputs.slug }}"
-            find src/content/blog -name "${SLUG}.md" | while read f; do echo "$f"; done > /tmp/posts.txt
-            NEW_FILES=$(cat /tmp/posts.txt)
+            INPUT="${{ github.event.inputs.slug }}"
+            if [ "$INPUT" = "all" ]; then
+              NEW_FILES=$(find src/content/blog -name "*.md")
+            else
+              NEW_FILES=""
+              IFS=',' read -ra SLUGS <<< "$INPUT"
+              for SLUG in "${SLUGS[@]}"; do
+                SLUG=$(echo "$SLUG" | xargs)
+                NEW_FILES+=$(find src/content/blog -name "${SLUG}.md")$'\n'
+              done
+            fi
           else
             # Push trigger — only newly added files
             NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/**/*.md' || true)
