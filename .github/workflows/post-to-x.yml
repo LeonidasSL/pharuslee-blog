@@ -73,7 +73,7 @@ jobs:
               print("No files to post")
               sys.exit(0)
 
-          site = "https://pharuslee.com"
+          site = "https://www.pharuslee.com"
 
           def post_with_retry(text, retries=3):
               for attempt in range(retries):

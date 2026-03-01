@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://pharuslee.com',
+  site: 'https://www.pharuslee.com',
   output: 'static',
   vite: {
     plugins: [tailwindcss()]
