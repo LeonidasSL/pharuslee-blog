@@ -5,6 +5,11 @@ on:
     branches: [master]
     paths:
       - 'src/content/blog/**/*.md'
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Blog post slug to tweet (e.g. boromir-syndrome)'
+        required: true
 
 jobs:
   post-to-x:
@@ -14,11 +19,18 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Find new blog posts
+      - name: Find blog posts
         id: find-posts
         run: |
-          # Get newly added blog post files in this push
-          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/**/*.md' || true)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual trigger — find posts by slug
+            SLUG="${{ github.event.inputs.slug }}"
+            find src/content/blog -name "${SLUG}.md" | while read f; do echo "$f"; done > /tmp/posts.txt
+            NEW_FILES=$(cat /tmp/posts.txt)
+          else
+            # Push trigger — only newly added files
+            NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/**/*.md' || true)
+          fi
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$NEW_FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
