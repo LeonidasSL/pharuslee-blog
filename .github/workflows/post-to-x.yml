@@ -90,7 +90,10 @@ jobs:
               print(f"  Failed after {retries} retries")
               return False
 
-          for f in sorted(files):
+          # Parse all posts and sort: date asc, then en before ko
+          # This way timeline (newest first) shows: newest KO, newest EN, ...
+          posts = []
+          for f in files:
               if not f.strip():
                   continue
               with open(f, "r", encoding="utf-8") as fh:
@@ -105,12 +108,18 @@ jobs:
               slug = meta.get("urlSlug", "")
               title = meta.get("title", "")
               excerpt = meta.get("excerpt", "")
+              date = str(meta.get("date", ""))
 
               if not slug or not title:
                   continue
+              posts.append((date, lang, slug, title, excerpt))
 
+          # Sort: oldest date first, en before ko (so ko ends up on top in timeline)
+          lang_order = {"en": 0, "ko": 1}
+          posts.sort(key=lambda p: (p[0], lang_order.get(p[1], 2)))
+
+          for date, lang, slug, title, excerpt in posts:
               url = f"{site}/{lang}/blog/{slug}/"
-              # Use excerpt as intro, link card shows the title
               tweet = f"{excerpt}\n\n{url}" if excerpt else f"{title}\n\n{url}"
 
               print(f"Posting: {tweet[:80]}...")
