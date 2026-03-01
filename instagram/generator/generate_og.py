@@ -179,6 +179,8 @@ def main():
         ("The Boromir Syndrome: The One Ring of the AI Age", "en", "boromir-syndrome"),
         ("의식과 AI의 교차점에서", "ko", "consciousness-and-ai"),
         ("At the Intersection of Consciousness and AI", "en", "consciousness-and-ai"),
+        ("성을 허무는 건설자들", "ko", "builders-who-tear-down"),
+        ("The Builders Who Tear Down the Castle", "en", "builders-who-tear-down"),
     ]
 
     for title, lang, slug in posts:
