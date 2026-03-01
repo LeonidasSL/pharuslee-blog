@@ -110,17 +110,20 @@ jobs:
               excerpt = meta.get("excerpt", "")
               date = str(meta.get("date", ""))
 
+              tags = meta.get("tags", [])
               if not slug or not title:
                   continue
-              posts.append((date, lang, slug, title, excerpt))
+              posts.append((date, lang, slug, title, excerpt, tags))
 
           # Sort: oldest date first, en before ko (so ko ends up on top in timeline)
           lang_order = {"en": 0, "ko": 1}
           posts.sort(key=lambda p: (p[0], lang_order.get(p[1], 2)))
 
-          for date, lang, slug, title, excerpt in posts:
+          for date, lang, slug, title, excerpt, tags in posts:
               url = f"{site}/{lang}/blog/{slug}/"
-              tweet = f"{excerpt}\n\n{url}" if excerpt else f"{title}\n\n{url}"
+              hashtags = " ".join(f'#{t.replace(" ", "")}' for t in tags[:4])
+              body = excerpt if excerpt else title
+              tweet = f"{body}\n\n{url}\n\n{hashtags}"
 
               print(f"Posting: {tweet[:80]}...")
               if post_with_retry(tweet):
