@@ -47,7 +47,7 @@ jobs:
           pip install tweepy pyyaml
 
           python3 << 'PYEOF'
-          import tweepy, yaml, re, os, sys
+          import tweepy, yaml, re, os, sys, time
 
           api_key = os.environ.get("X_API_KEY", "")
           if not api_key:
@@ -63,16 +63,22 @@ jobs:
 
           files = os.environ.get("FILES", "").strip().splitlines()
           if not files or files == ['']:
-              # Read from step output via file
-              import subprocess
-              result = subprocess.run(
-                  ["git", "diff", "--name-only", "--diff-filter=A", "HEAD~1", "HEAD", "--", "src/content/blog/**/*.md"],
-                  capture_output=True, text=True
-              )
-              files = result.stdout.strip().splitlines()
+              print("No files to post")
+              sys.exit(0)
 
           site = "https://pharuslee.com"
-          posted_keys = set()
+
+          def post_with_retry(text, retries=3):
+              for attempt in range(retries):
+                  try:
+                      client.create_tweet(text=text)
+                      return True
+                  except tweepy.errors.TwitterServerError as e:
+                      wait = 10 * (attempt + 1)
+                      print(f"  Server error ({e}), retrying in {wait}s...")
+                      time.sleep(wait)
+              print(f"  Failed after {retries} retries")
+              return False
 
           for f in sorted(files):
               if not f.strip():
@@ -80,7 +86,6 @@ jobs:
               with open(f, "r", encoding="utf-8") as fh:
                   content = fh.read()
 
-              # Parse YAML frontmatter
               match = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
               if not match:
                   continue
@@ -89,20 +94,16 @@ jobs:
               lang = meta.get("lang", "")
               slug = meta.get("urlSlug", "")
               title = meta.get("title", "")
-              key = meta.get("translationKey", slug)
 
               if not slug or not title:
                   continue
 
               url = f"{site}/{lang}/blog/{slug}/"
-
-              if lang == "ko":
-                  tweet = f"{title}\n\n{url}"
-              else:
-                  tweet = f"{title}\n\n{url}"
+              tweet = f"{title}\n\n{url}"
 
               print(f"Posting: {tweet[:80]}...")
-              client.create_tweet(text=tweet)
-              print(f"Posted {lang} tweet for: {title}")
+              if post_with_retry(tweet):
+                  print(f"Posted {lang} tweet for: {title}")
+              time.sleep(2)
 
           PYEOF
