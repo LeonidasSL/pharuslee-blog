@@ -123,6 +123,11 @@ jobs:
               url = f"{site}/{lang}/blog/{slug}/"
               hashtags = " ".join(f'#{t.replace(" ", "")}' for t in tags[:4])
               body = excerpt if excerpt else title
+              # Keep tweets short so X renders link cards
+              # URL = 23 chars (t.co), 2 newline pairs = 4, hashtags ~40
+              max_body = 280 - 23 - 4 - len(hashtags) - 30  # 30 char buffer
+              if len(body) > max_body:
+                  body = body[:max_body - 1].rsplit(' ', 1)[0] + '...'
               tweet = f"{body}\n\n{url}\n\n{hashtags}"
 
               print(f"Posting: {tweet[:80]}...")
