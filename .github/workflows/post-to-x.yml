@@ -1,0 +1,95 @@
+name: Post new blog to X
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'src/content/blog/**/*.md'
+
+jobs:
+  post-to-x:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Find new blog posts
+        id: find-posts
+        run: |
+          # Get newly added blog post files in this push
+          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/**/*.md' || true)
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$NEW_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Post to X
+        if: steps.find-posts.outputs.files != ''
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: |
+          pip install tweepy pyyaml
+
+          python3 << 'PYEOF'
+          import tweepy, yaml, re, os, sys
+
+          api_key = os.environ.get("X_API_KEY", "")
+          if not api_key:
+              print("X credentials not configured yet — skipping")
+              sys.exit(0)
+
+          client = tweepy.Client(
+              consumer_key=api_key,
+              consumer_secret=os.environ["X_API_SECRET"],
+              access_token=os.environ["X_ACCESS_TOKEN"],
+              access_token_secret=os.environ["X_ACCESS_SECRET"],
+          )
+
+          files = os.environ.get("FILES", "").strip().splitlines()
+          if not files or files == ['']:
+              # Read from step output via file
+              import subprocess
+              result = subprocess.run(
+                  ["git", "diff", "--name-only", "--diff-filter=A", "HEAD~1", "HEAD", "--", "src/content/blog/**/*.md"],
+                  capture_output=True, text=True
+              )
+              files = result.stdout.strip().splitlines()
+
+          site = "https://pharuslee.com"
+          posted_keys = set()
+
+          for f in sorted(files):
+              if not f.strip():
+                  continue
+              with open(f, "r", encoding="utf-8") as fh:
+                  content = fh.read()
+
+              # Parse YAML frontmatter
+              match = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+              if not match:
+                  continue
+              meta = yaml.safe_load(match.group(1))
+
+              lang = meta.get("lang", "")
+              slug = meta.get("urlSlug", "")
+              title = meta.get("title", "")
+              key = meta.get("translationKey", slug)
+
+              if not slug or not title:
+                  continue
+
+              url = f"{site}/{lang}/blog/{slug}/"
+
+              if lang == "ko":
+                  tweet = f"{title}\n\n{url}"
+              else:
+                  tweet = f"{title}\n\n{url}"
+
+              print(f"Posting: {tweet[:80]}...")
+              client.create_tweet(text=tweet)
+              print(f"Posted {lang} tweet for: {title}")
+
+          PYEOF

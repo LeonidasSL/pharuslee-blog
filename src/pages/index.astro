@@ -1,3 +1,19 @@
 ---
-return Astro.redirect('/ko/');
+// No server redirect — use client-side language detection
 ---
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pharus Lee</title>
+    <script is:inline>
+      var lang = (navigator.language || '').startsWith('ko') ? 'ko' : 'en';
+      window.location.replace('/' + lang + '/');
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0;url=/ko/" />
+    </noscript>
+  </head>
+  <body></body>
+</html>
