@@ -10,9 +10,11 @@ interface Props {
   tags: string[];
   lang: Lang;
   translationSlug?: string;
+  urlSlug: string;
 }
 
-const { title, date, excerpt, tags, lang, translationSlug } = Astro.props;
+const { title, date, excerpt, tags, lang, translationSlug, urlSlug } = Astro.props;
+const ogImage = `/og/${lang}/${urlSlug}.png`;
 const t = useTranslations(lang);
 
 const formattedDate = date.toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', {
@@ -28,7 +30,7 @@ const koreanChars = (content.replace(/<[^>]*>/g, '').match(/[\uAC00-\uD7AF]/g) |
 const readingTime = Math.max(1, Math.ceil((wordCount + koreanChars) / 250));
 ---
 
-<BaseLayout title={`${title} - Pharus Lee`} description={excerpt} lang={lang} translationSlug={translationSlug}>
+<BaseLayout title={`${title} - Pharus Lee`} description={excerpt} lang={lang} translationSlug={translationSlug} ogImage={ogImage} publishedDate={date} isArticle={true}>
   <article class="mx-auto px-6 py-16" style={`max-width: var(--page-max)`}>
     <header class="mb-12 text-center" style={`max-width: var(--prose-width); margin: 0 auto`}>
       <div class="flex items-center justify-center gap-3 mb-6" style={`color: var(--color-ink-faint); font-size: 0.875rem`}>

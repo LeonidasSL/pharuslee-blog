@@ -24,6 +24,7 @@ const translation = allPosts.find((p) => p.data.translationKey === post.data.tra
   excerpt={post.data.excerpt}
   tags={post.data.tags}
   lang="ko"
+  urlSlug={post.data.urlSlug}
   translationSlug={translation?.data.urlSlug}
 >
   <Content />

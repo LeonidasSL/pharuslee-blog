@@ -10,9 +10,12 @@ interface Props {
   description?: string;
   lang: Lang;
   translationSlug?: string;
+  ogImage?: string;
+  publishedDate?: Date;
+  isArticle?: boolean;
 }
 
-const { title, description, lang, translationSlug } = Astro.props;
+const { title, description, lang, translationSlug, ogImage, publishedDate, isArticle } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -27,7 +30,8 @@ const { title, description, lang, translationSlug } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <SEO title={title} description={description} lang={lang} translationSlug={translationSlug} />
+    <SEO title={title} description={description} lang={lang} translationSlug={translationSlug} ogImage={ogImage} publishedDate={publishedDate} isArticle={isArticle} />
+    <link rel="alternate" type="application/rss+xml" title="Pharus Lee" href="/feed.xml" />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="min-h-screen flex flex-col">
@@ -36,5 +40,9 @@ const { title, description, lang, translationSlug } = Astro.props;
       <slot />
     </main>
     <SiteFooter lang={lang} />
+    <script>
+      import { inject } from '@vercel/analytics';
+      inject();
+    </script>
   </body>
 </html>
