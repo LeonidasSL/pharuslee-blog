@@ -76,7 +76,7 @@ The Anthropic-Pentagon dispute is not a simple contract disagreement between a c
 
 On one side stands a real security threat; on the other, a surveillance infrastructure that, once unleashed, is nearly impossible to reverse. On one side stands the urgency of not falling behind in an arms race; on the other, the foundational principles of democracy.
 
-That Sam Altman sent a memo to OpenAI employees supporting the same position as Anthropic, that over a hundred Google employees sent letters demanding similar restrictions — this is Middle-earth's free peoples beginning, one by one, to recognize the danger of the Ring.
+That over a hundred Google employees sent letters demanding similar restrictions — this is Middle-earth's free peoples beginning, one by one, to recognize the danger of the Ring.
 
 The One Ring was ultimately destroyed in the fires of Mount Doom. That it was the only way — the wise in the story knew from the beginning.
 
